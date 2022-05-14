@@ -34,5 +34,5 @@ deploy-job:
   stage: deploy
   script:
     - apt update && apt install sshpass -y
-    - sshpass -p $PASSWORD ssh $CUSTOM_USERNAME@$CUSTOM_IP "rm -rf /var/www/html/static/sdudoc || echo dir not exists"
+    - sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $CUSTOM_USERNAME@$CUSTOM_IP "rm -rf /var/www/html/static/sdudoc || echo dir not exists"
     - sshpass -p $PASSWORD scp -o StrictHostKeyChecking=no -r ./dist $CUSTOM_USERNAME@$CUSTOM_IP:/var/www/html/static/sdudoc
