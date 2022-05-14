@@ -1,4 +1,5 @@
 # umi-template
+![workflow](https://github.com/CrazyHer/umi-template/actions/workflows/cicd.yml/badge.svg)
 
 Umi+React+Mobx模板
 
