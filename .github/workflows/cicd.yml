@@ -62,7 +62,8 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: app
-        
+        path: ./dist
+      
     - name: Deploy on Server
       run: |
         apt update && apt install sshpass -y
