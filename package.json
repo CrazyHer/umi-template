@@ -1,9 +1,9 @@
 {
   "name": "umi-template",
   "private": true,
-  "homepage": ".",
   "scripts": {
     "start": "umi dev",
+    "lint": "eslint",
     "build": "umi build",
     "postinstall": "umi generate tmp",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
@@ -12,15 +12,7 @@
     "rapper": "rapper --type normal --rapperPath \"src/services\" --apiUrl \"http://rap2api.taobao.org/repository/get?id=302425&token=9R9z6QerB2pJBOy_iCk_-li78WEChbnM\" --rapUrl \"http://rap2.taobao.org\""
   },
   "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,jsx,less,md,json}": [
-      "prettier --write"
-    ],
-    "*.ts?(x)": [
-      "prettier --parser=typescript --write"
-    ]
+    "pre-commit": "eslint"
   },
   "dependencies": {
     "@ant-design/pro-layout": "^6.5.0",
@@ -36,9 +28,12 @@
     "@types/crypto-js": "^4.1.1",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.23.0",
+    "@typescript-eslint/parser": "^5.23.0",
     "@umijs/preset-react": "^1.0.0",
     "@umijs/test": "^3.5.23",
-    "lint-staged": "^10.0.7",
+    "eslint": "^8.15.0",
+    "eslint-plugin-react": "^7.29.4",
     "prettier": "^2.2.0",
     "typescript": "^4.1.2",
     "yorkie": "^2.0.0"

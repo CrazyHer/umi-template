@@ -5,7 +5,7 @@ import styles from './index.less';
 import { Button } from 'antd';
 import mobxStore from '@/mobxStore';
 
-const IndexPage: FC<{}> = (props) => {
+const IndexPage: FC = () => {
   const { formatMessage } = useIntl();
   const f = (id: string) => formatMessage({ id });
 

@@ -1,9 +1,9 @@
 import { Form, Input, Button, message, Checkbox } from 'antd';
 import { observer } from 'mobx-react';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import crypto from 'crypto-js';
-import Style from './login.module.less';
+import Style from './index.module.less';
 import sdudocIcon from '@/../assets/filmIcon.svg';
 import { fetch } from '@/services';
 import { useHistory, useIntl } from 'umi';
@@ -14,21 +14,28 @@ interface IFormData {
   password: string;
 }
 
-const Login: FC<{}> = (props) => {
+const Login: FC = () => {
   const { formatMessage } = useIntl();
   const f = (id: string) => formatMessage({ id });
 
   const [loading, setLoading] = useState<boolean>(false);
   const [isRegisterForm, setRegisterForm] = useState<boolean>(false);
-  const history = useHistory();
 
   const [registerForm] = Form.useForm<IFormData>();
   const [loginForm] = Form.useForm<IFormData>();
 
+  const history = useHistory();
+  useEffect(() => {
+    if (mobxStore.user.token) {
+      // 已登陆，跳转至首页
+      history.push('/');
+    }
+  }, [mobxStore.user.token]);
+
   const handleLogin = async (formData: IFormData) => {
     setLoading(true);
     try {
-      const res = await fetch['POST/login']({
+      const res = await fetch['POST/user/login']({
         userID: formData.userID,
         // 对密码进行SHA256加密
         password: crypto
@@ -54,7 +61,7 @@ const Login: FC<{}> = (props) => {
   const handleRegister = async (data: IFormData) => {
     try {
       setLoading(true);
-
+      console.log(data);
       // const res = await fetch['POST/register']({
       //   userID: data.userID,
       //   // 对密码进行SHA256加密

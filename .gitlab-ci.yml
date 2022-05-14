@@ -1,0 +1,37 @@
+default:
+  image: 'node:lts'
+
+stages:
+  - test
+  - build
+  - deploy
+
+cache:
+  paths:
+    - node_modules
+    - dist
+
+test-job:
+  stage: test
+  script:
+    - npm install
+    - npm run lint
+
+build-job:
+  only:
+    - master
+  stage: build
+  script:
+    - npm run build
+  artifacts:
+    name: 'bundle'
+    paths:
+      - dist/
+
+deploy-job:
+  only:
+    - master
+  stage: deploy
+  script:
+    - apt update && apt install sshpass -y
+    - sshpass -p $PASSWORD scp -o StrictHostKeyChecking=no -r ./dist $CUSTOM_USERNAME@$CUSTOM_IP:$CUSTOM_DEPLOY_PATH

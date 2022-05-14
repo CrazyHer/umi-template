@@ -1,4 +1,4 @@
-/* md5: 5722a1e847faa41dddf4d42d4a1c41e4 */
+/* md5: f75f72aa09656c138388bf4816dee807 */
 /* Rap仓库id: 302425 */
 /* Rapper版本: 1.3.1 */
 /* eslint-disable */
@@ -17,7 +17,7 @@ export interface IModels {
    * 接口名：登录
    * Rap 地址: http://rap2.taobao.org/repository/editor?id=302425&mod=510768&itf=2263306
    */
-  'POST/login': {
+  'POST/user/login': {
     Req: {
       userID: string;
       password: string;
@@ -29,12 +29,22 @@ export interface IModels {
       };
     };
   };
+
+  /**
+   * 接口名：注册
+   * Rap 地址: http://rap2.taobao.org/repository/editor?id=302425&mod=510768&itf=2263397
+   */
+  'POST/user/register': {
+    Req: {};
+    Res: {};
+  };
 }
 
 type ResSelector<T> = T;
 
 export interface IResponseTypes {
-  'POST/login': ResSelector<IModels['POST/login']['Res']>;
+  'POST/user/login': ResSelector<IModels['POST/user/login']['Res']>;
+  'POST/user/register': ResSelector<IModels['POST/user/register']['Res']>;
 }
 
 export function createFetch(
@@ -53,16 +63,34 @@ export function createFetch(
      * @param req 请求参数
      * @param extra 请求配置项
      */
-    'POST/login': (
-      req?: IModels['POST/login']['Req'],
+    'POST/user/login': (
+      req?: IModels['POST/user/login']['Req'],
       extra?: commonLib.IExtra,
     ) => {
       return rapperFetch({
-        url: '/login',
+        url: '/user/login',
         method: 'POST',
         params: req,
         extra,
-      }) as Promise<IResponseTypes['POST/login']>;
+      }) as Promise<IResponseTypes['POST/user/login']>;
+    },
+
+    /**
+     * 接口名：注册
+     * Rap 地址: http://rap2.taobao.org/repository/editor?id=302425&mod=510768&itf=2263397
+     * @param req 请求参数
+     * @param extra 请求配置项
+     */
+    'POST/user/register': (
+      req?: IModels['POST/user/register']['Req'],
+      extra?: commonLib.IExtra,
+    ) => {
+      return rapperFetch({
+        url: '/user/register',
+        method: 'POST',
+        params: req,
+        extra,
+      }) as Promise<IResponseTypes['POST/user/register']>;
     },
   };
 }
