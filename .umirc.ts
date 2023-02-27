@@ -1,21 +1,15 @@
 import { defineConfig } from 'umi';
 
 export default defineConfig({
-  nodeModulesTransform: {
-    type: 'none',
-  },
+  plugins: ['@umijs/plugins/dist/antd', '@umijs/plugins/dist/locale'],
   routes: [
-    {
-      path: '/',
-      component: '../pages/index',
-      wrappers: ['../components/layout', '../components/accessAuth'],
-    },
-    { path: '/login', component: '../pages/login' },
+    { path: '/', component: '@/pages/index' },
+    { path: '/login', component: '@/pages/login', layout: false },
   ],
-  fastRefresh: {},
-  locale: { default: 'zh-CN', antd: true },
-  history: { type: 'hash' },
+  clientLoader: {},
+  npmClient: 'pnpm',
   antd: {},
-  mock: {},
-  publicPath: './',
+  locale: { default: 'zh-CN' },
+  publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
+  history: { type: 'hash' },
 });

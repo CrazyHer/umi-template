@@ -1,15 +1,14 @@
 import { FC } from 'react';
 import { Layout as AntdLayout, Menu, Dropdown, Button, Avatar } from 'antd';
 import { observer } from 'mobx-react';
-import Style from './index.module.css';
-import { useHistory, useIntl } from 'umi';
-import sduIcon from '@/../assets/filmIcon.svg';
+import Style from './index.module.less';
+import { useIntl, history, Outlet } from 'umi';
+import sduIcon from '@/assets/filmIcon.svg';
 import mobxStore from '@/mobxStore';
 
-const Layout: FC = (props) => {
+const Layout: FC = () => {
   const { formatMessage } = useIntl();
   const f = (id: string) => formatMessage({ id });
-  const history = useHistory();
   const user = mobxStore.user;
 
   const handleLogoff = () => {
@@ -41,19 +40,12 @@ const Layout: FC = (props) => {
           <div>
             <Dropdown
               overlayStyle={{ position: 'fixed' }}
-              overlay={
-                <Menu>
-                  <Menu.Item
-                    key="editUserInfo"
-                    onClick={() => history.push('/user/profileedit')}
-                  >
-                    <Button type="text">个人信息</Button>
-                  </Menu.Item>
-                  <Menu.Item key="logoff" onClick={handleLogoff}>
-                    <Button type="text">退出登录</Button>
-                  </Menu.Item>
-                </Menu>
-              }
+              menu={{
+                items: [
+                  { label: '个人信息', key: 1 },
+                  { label: '注销登录', key: 2 },
+                ],
+              }}
             >
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Avatar
@@ -69,7 +61,7 @@ const Layout: FC = (props) => {
         </div>
       </AntdLayout.Header>
       <AntdLayout.Content style={{ marginTop: '80px' }}>
-        {props.children}
+        <Outlet />
       </AntdLayout.Content>
     </AntdLayout>
   );

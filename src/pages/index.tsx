@@ -1,15 +1,14 @@
 import { observer } from 'mobx-react';
 import { FC } from 'react';
-import { getLocale, setLocale, useHistory, useIntl } from 'umi';
+import { getLocale, setLocale, history } from 'umi';
 import styles from './index.less';
 import { Button } from 'antd';
 import mobxStore from '@/mobxStore';
+import { useFmtMsg } from '@/hooks/useFmtMsg';
 
 const IndexPage: FC = () => {
-  const { formatMessage } = useIntl();
-  const f = (id: string) => formatMessage({ id });
+  const f = useFmtMsg();
 
-  const history = useHistory();
   return (
     <div>
       <h1 className={styles.title}>{f('title')}</h1>

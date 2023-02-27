@@ -1,3 +1,2 @@
-import customFetch from './services/customFetch';
-
-customFetch();
+import { defineApp } from 'umi';
+export default defineApp({});
