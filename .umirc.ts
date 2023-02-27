@@ -10,4 +10,5 @@ export default defineConfig({
   npmClient: 'pnpm',
   antd: {},
   locale: {},
+  publicPath: './',
 });
