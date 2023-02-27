@@ -4,10 +4,10 @@ import { FC, useEffect, useState } from 'react';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import crypto from 'crypto-js';
 import Style from './index.module.less';
-import sdudocIcon from '@/../assets/filmIcon.svg';
-import { fetch } from '@/services';
-import { useHistory, useIntl } from 'umi';
+import sdudocIcon from '@/assets/filmIcon.svg';
+import { history, useIntl } from 'umi';
 import mobxStore from '@/mobxStore';
+import { services } from '@/services';
 
 interface IFormData {
   userID: string;
@@ -24,7 +24,6 @@ const Login: FC = () => {
   const [registerForm] = Form.useForm<IFormData>();
   const [loginForm] = Form.useForm<IFormData>();
 
-  const history = useHistory();
   useEffect(() => {
     if (mobxStore.user.token) {
       // 已登陆，跳转至首页
@@ -35,8 +34,8 @@ const Login: FC = () => {
   const handleLogin = async (formData: IFormData) => {
     setLoading(true);
     try {
-      const res = await fetch['POST/user/login']({
-        userID: formData.userID,
+      const res = await services['POST /login']({
+        username: formData.userID,
         // 对密码进行SHA256加密
         password: crypto
           .HmacSHA256(formData.password, 'sdudoc')
@@ -47,8 +46,8 @@ const Login: FC = () => {
         const { token } = res.data;
         mobxStore.user.setToken(token);
       } else {
-        message.warn(`登陆失败`);
-        console.log(res);
+        message.warning(`登陆失败`);
+        console.error(res);
       }
     } catch (error) {
       message.error(`登陆失败，请求异常`);

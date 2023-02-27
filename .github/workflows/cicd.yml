@@ -1,38 +1,37 @@
-name:
-  CI/CD
+name: CI/CD
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 env:
-  WEBAPP_NAME: 'umi-template'          # set this to your application's name
-  NODE_VERSION: '14.x'                # set this to the node version to use
+  WEBAPP_NAME: 'umi-template' # set this to your application's name
+  NODE_VERSION: '18.x' # set this to the node version to use
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ env.NODE_VERSION }}
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
-    - name: npm install, lint and build
-      run: |
-        npm install
-        npm run lint
-        npm run build
+      - name: npm install, lint and build
+        run: |
+          npm install
+          npm run lint
+          npm run build
 
-    - name: Upload artifact for deployment job
-      uses: actions/upload-artifact@v3
-      with:
-        name: app
-        path: ./dist
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: app
+          path: ./dist
 
   deploy:
     runs-on: ubuntu-latest
@@ -42,14 +41,14 @@ jobs:
       url: http://static.herui.club/${{ env.WEBAPP_NAME }}
 
     steps:
-    - name: Download artifact from build job
-      uses: actions/download-artifact@v3
-      with:
-        name: app
-        path: ./dist
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: app
+          path: ./dist
 
-    - name: Deploy on Server
-      run: |
-        apt update && apt install sshpass -y
-        sshpass -p ${{ secrets.PASSWORD }} ssh -o StrictHostKeyChecking=no ${{ secrets.CUSTOM_USERNAME }}@${{ secrets.CUSTOM_IP }} "rm -rf /var/www/html/static/${{ env.WEBAPP_NAME }} || echo dir not exists"
-        sshpass -p ${{ secrets.PASSWORD }} scp -o StrictHostKeyChecking=no -r ./dist ${{ secrets.CUSTOM_USERNAME }}@${{ secrets.CUSTOM_IP }}:/var/www/html/static/${{ env.WEBAPP_NAME }}
+      - name: Deploy on Server
+        run: |
+          apt update && apt install sshpass -y
+          sshpass -p ${{ secrets.PASSWORD }} ssh -o StrictHostKeyChecking=no ${{ secrets.CUSTOM_USERNAME }}@${{ secrets.CUSTOM_IP }} "rm -rf /var/www/html/static/${{ env.WEBAPP_NAME }} || echo dir not exists"
+          sshpass -p ${{ secrets.PASSWORD }} scp -o StrictHostKeyChecking=no -r ./dist ${{ secrets.CUSTOM_USERNAME }}@${{ secrets.CUSTOM_IP }}:/var/www/html/static/${{ env.WEBAPP_NAME }}
