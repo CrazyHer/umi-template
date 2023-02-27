@@ -10,5 +10,5 @@ export default defineConfig({
   npmClient: 'pnpm',
   antd: {},
   locale: {},
-  publicPath: './',
+  publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
 });
