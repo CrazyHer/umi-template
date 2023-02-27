@@ -40,19 +40,12 @@ const Layout: FC = () => {
           <div>
             <Dropdown
               overlayStyle={{ position: 'fixed' }}
-              overlay={
-                <Menu>
-                  <Menu.Item
-                    key="editUserInfo"
-                    onClick={() => history.push('/user/profileedit')}
-                  >
-                    <Button type="text">个人信息</Button>
-                  </Menu.Item>
-                  <Menu.Item key="logoff" onClick={handleLogoff}>
-                    <Button type="text">退出登录</Button>
-                  </Menu.Item>
-                </Menu>
-              }
+              menu={{
+                items: [
+                  { label: '个人信息', key: 1 },
+                  { label: '注销登录', key: 2 },
+                ],
+              }}
             >
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Avatar

@@ -9,6 +9,7 @@ export default defineConfig({
   clientLoader: {},
   npmClient: 'pnpm',
   antd: {},
-  locale: {},
+  locale: { default: 'zh-CN' },
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
+  history: { type: 'hash' },
 });
